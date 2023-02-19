@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
 
+import StepForm from './components/StepForm';
+
 function App() {
   return (
     <div className="App">
-     <h1>Step form clean commit</h1>
+     <StepForm />
     </div>
   );
 }
