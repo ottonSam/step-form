@@ -10,14 +10,14 @@ type FormFields = {
     email: string;
     review: string;
     comment: string;
-  };
-  
-  const formTemplate: FormFields = {
+};
+
+const formTemplate: FormFields = {
     name: "",
     email: "",
     review: "",
     comment: "",
-  };
+};
 
 function StepForm() {
     const [data, setData] = useState(formTemplate);
@@ -52,7 +52,7 @@ function StepForm() {
                                 <span>Avançar</span>
                             </button>
                         ) : (
-                            <button type="button">
+                            <button type="button" onClick={() => console.log(data)}>
                                 <span>Enviar</span>
                             </button>
                         )}

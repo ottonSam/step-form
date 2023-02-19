@@ -10,6 +10,7 @@ type DataProps = {
 const Contact = ({ data, updateFieldHandler }: DataProps) => {
     return (
         <div>
+            <h2>Identificação</h2>
             <div>
                 <label htmlFor="name">Nome:</label>
                 <input
