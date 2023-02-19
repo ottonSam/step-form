@@ -10,8 +10,14 @@ type DataProps = {
 
 const Submission = ({ data }: DataProps) => {
     return (
-        <div className="Submission">
-            <h1>Submission</h1>
+        <div>
+            <p>
+                <span>Satisfação com o produto:</span>
+                {data.review}
+            </p>
+            <p>
+                <span>Comentário:</span> {data.comment}
+            </p>
         </div>
     );
 }
