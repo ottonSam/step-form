@@ -1,65 +1,109 @@
-import { useState } from "react";
-import { useForm } from "../hooks/useForm";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { Box, TextField } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-import Contact from "./ContactStep";
-import Review from "./ReviewStep";
-import Submission from "./SubmissionStep";
+// import Contact from "./ContactStep";
+// import Review from "./ReviewStep";
+// import Submission from "./SubmissionStep";
 
-type FormFields = {
-    name: string;
-    email: string;
-    review: string;
-    comment: string;
-};
+interface IFormInputs {
+  name: string;
+  email: string;
+  review: string;
+  comment: string;
+}
 
-const formTemplate: FormFields = {
-    name: "",
-    email: "",
-    review: "",
-    comment: "",
-};
+const schema = yup.object().shape({
+  name: yup.string().min(5).required("Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  review: yup.string().required("Review is required"),
+  comment: yup.string().required("Comment is required"),
+});
 
 function StepForm() {
-    const [data, setData] = useState(formTemplate);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-    const updateFieldHandler = (key: string, value: string) => {
-        setData((prev) => {
-            return { ...prev, [key]: value };
-        });
-    };
+  const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    console.log(data);
+  };
 
-    const formComponents = [
-        <Contact data={data} updateFieldHandler={updateFieldHandler} />,
-        <Review data={data} updateFieldHandler={updateFieldHandler} />,
-        <Submission data={data} />,
-    ];
-
-    const { currentStep, currentComponent, changeStep, isLastStep } =
-        useForm(formComponents);
-
-    return (
-        <div className="app">
-            <div className="form-container">
-                <form onSubmit={(e) => changeStep(currentStep + 1, e)}>
-                    <div className="inputs-container">{currentComponent}</div>
-                    <div className="actions">
-                        <button type="button" onClick={() => changeStep(currentStep - 1)}>
-                            <span>Voltar</span>
-                        </button>
-
-                        {!isLastStep ? (
-                            <button type="submit">
-                                <span>Avançar</span>
-                            </button>
-                        ) : (
-                            <button type="button" onClick={() => console.log(data)}>
-                                <span>Enviar</span>
-                            </button>
-                        )}
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+  return (
+    <Box>
+      <form onSubmit={handleSubmit(formSubmitHandler)}>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Name"
+              variant="outlined"
+              error={!!errors.name}
+              helperText={errors.name ? errors.name?.message : ""}
+            />
+          )}
+        />
+        <br />
+        <br />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              variant="outlined"
+              error={!!errors.email}
+              helperText={errors.email ? errors.email?.message : ""}
+            />
+          )}
+        />
+        <br />
+        <br />
+        <Controller
+          name="review"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Review"
+              variant="outlined"
+              error={!!errors.review}
+              helperText={errors.review ? errors.review?.message : ""}
+            />
+          )}
+        />
+        <br />
+        <br />
+        <Controller
+          name="comment"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Comment"
+              variant="outlined"
+              error={!!errors.comment}
+              helperText={errors.comment ? errors.comment?.message : ""}
+            />
+          )}
+        />
+        <br />
+        <br />
+        <button type="submit">Enviar</button>
+      </form>
+    </Box>
+  );
 }
 export default StepForm;
