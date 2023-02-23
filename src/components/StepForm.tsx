@@ -3,6 +3,7 @@ import { Box, Button } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import StepContact from "./StepContact";
+import StepReview from "./SetpReview";
 
 // import Contact from "./ContactStep";
 // import Review from "./ReviewStep";
@@ -39,6 +40,9 @@ function StepForm() {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
           <StepContact />
+          <br />
+          <StepReview />
+          <br />
           <Button type="submit" variant="contained" color="success">
             Enviar
           </Button>
