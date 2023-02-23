@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import StepContact from "./StepContact";
-import StepReview from "./SetpReview";
+import StepReview from "./StepReview";
 
 // import Contact from "./ContactStep";
 // import Review from "./ReviewStep";
