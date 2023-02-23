@@ -1,11 +1,35 @@
-import { Box, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
+import * as yup from "yup";
 
-const StepContact = () => {
+const userSchema = yup.object().shape({
+  name: yup.string().min(5).required("Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+});
+
+const StepContact = (props: any) => {
   const {
     control,
+    watch,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
+
+  const textUser = async () => {
+    const user = {
+      name: watch("name"),
+      email: watch("email"),
+    };
+
+    if (await userSchema.validate(user)) {
+      clearErrors("review");
+      clearErrors("comment");
+      props.nextStep();
+    }
+  };
 
   return (
     <Box>
@@ -41,6 +65,9 @@ const StepContact = () => {
           />
         )}
       />
+      <Button type="submit" onClick={(e) => textUser()}>
+        Next
+      </Button>
     </Box>
   );
 };
