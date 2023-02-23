@@ -50,13 +50,16 @@ function StepForm() {
   });
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
-    if (currentStep === step.length - 1) {
-      alert(JSON.stringify(data));
-    }
+    schema.isValid(data).then((e) => {
+      if (currentStep === step.length - 1 && e) {
+        alert(JSON.stringify(data));
+      }
+    });
   };
 
   return (
-    <Box>
+    <Box p={2}>
+      <h2>Formulário de contato:</h2>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
           {currentStep > 0 && (
@@ -65,11 +68,6 @@ function StepForm() {
             </Button>
           )}
           {step[currentStep]}
-          {currentStep === step.length - 1 && (
-            <Button type="submit" variant="contained" color="success">
-              Enviar
-            </Button>
-          )}
         </form>
       </FormProvider>
     </Box>

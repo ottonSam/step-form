@@ -1,8 +1,8 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
-const userSchema = yup.object().shape({
+const reviewSchema = yup.object().shape({
   review: yup.string().required("Review is required"),
   comment: yup.string().required("Comment is required"),
 });
@@ -20,13 +20,14 @@ const StepContact = (props: any) => {
       comment: watch("comment"),
     };
 
-    if (await userSchema.validate(user)) {
-      props.nextStep();
-    }
+    await reviewSchema.isValid(user).then((e) => {
+      e && props.nextStep();
+    });
   };
 
   return (
-    <Box>
+    <Stack spacing={2}>
+      <p>Comentário</p>
       <Controller
         name="review"
         control={control}
@@ -43,8 +44,6 @@ const StepContact = (props: any) => {
           );
         }}
       />
-      <br />
-      <br />
       <Controller
         name="comment"
         control={control}
@@ -59,10 +58,10 @@ const StepContact = (props: any) => {
           />
         )}
       />
-      <Button type="submit" onClick={(e) => textReview()}>
+      <Button variant="outlined" type="submit" onClick={() => textReview()}>
         Next
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

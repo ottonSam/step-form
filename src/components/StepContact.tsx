@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
@@ -24,15 +24,16 @@ const StepContact = (props: any) => {
       email: watch("email"),
     };
 
-    if (await userSchema.validate(user)) {
+    await userSchema.isValid(user).then((e) => {
       clearErrors("review");
       clearErrors("comment");
-      props.nextStep();
-    }
+      e && props.nextStep();
+    });
   };
 
   return (
-    <Box>
+    <Stack spacing={2}>
+      <p>Informações de contato</p>
       <Controller
         name="name"
         control={control}
@@ -41,7 +42,7 @@ const StepContact = (props: any) => {
           return (
             <TextField
               {...field}
-              label="Name"
+              label="Nome"
               variant="outlined"
               error={!!errors.name}
               helperText={errors.name?.message?.toString()}
@@ -49,8 +50,6 @@ const StepContact = (props: any) => {
           );
         }}
       />
-      <br />
-      <br />
       <Controller
         name="email"
         control={control}
@@ -65,10 +64,10 @@ const StepContact = (props: any) => {
           />
         )}
       />
-      <Button type="submit" onClick={(e) => textUser()}>
+      <Button variant="outlined" type="submit" onClick={() => textUser()}>
         Next
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

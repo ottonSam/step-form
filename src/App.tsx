@@ -1,14 +1,18 @@
-import React from 'react';
-import './App.css';
+import { Box, Container, Paper } from "@mui/material";
+import React from "react";
+import "./App.css";
 
-import StepForm from './components/StepForm';
+import StepForm from "./components/StepForm";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Formulário em múltiplos passos.</h1>
-     <StepForm />
-    </div>
+    <Container maxWidth="sm">
+      <Box marginTop={2}>
+        <Paper elevation={4}>
+          <StepForm />
+        </Paper>
+      </Box>
+    </Container>
   );
 }
 
