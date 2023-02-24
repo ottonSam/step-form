@@ -1,8 +1,12 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
-const StepConfirm = () => {
+const StepConfirm = (props: any) => {
   const { watch } = useFormContext();
+
+  const handleBack = () => {
+    props.backStep();
+  };
 
   return (
     <Stack spacing={2}>
@@ -10,9 +14,12 @@ const StepConfirm = () => {
       <p>email: {watch("email")}</p>
       <p>review: {watch("review")}</p>
       <p>comment: {watch("comment")}</p>
-      <Button type="submit" variant="contained" color="success">
-        Enviar
-      </Button>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+          Back
+        </Button>
+        <Button type="submit">Confirm</Button>
+      </Box>
     </Stack>
   );
 };

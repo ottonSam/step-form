@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField, Box } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
@@ -18,7 +18,7 @@ const StepContact = (props: any) => {
     formState: { errors },
   } = useFormContext();
 
-  const textUser = async () => {
+  const handleNext = async () => {
     const user = {
       name: watch("name"),
       email: watch("email"),
@@ -31,9 +31,12 @@ const StepContact = (props: any) => {
     });
   };
 
+  const handleBack = () => {
+    props.backStep();
+  };
+
   return (
     <Stack spacing={2}>
-      <p>Informações de contato</p>
       <Controller
         name="name"
         control={control}
@@ -64,9 +67,19 @@ const StepContact = (props: any) => {
           />
         )}
       />
-      <Button variant="outlined" type="submit" onClick={() => textUser()}>
-        Next
-      </Button>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={true}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        <Button type="submit" onClick={handleNext}>
+          Next
+        </Button>
+      </Box>
     </Stack>
   );
 };

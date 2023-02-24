@@ -6,7 +6,7 @@ import StepForm from "./components/StepForm";
 
 function App() {
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <Box marginTop={2}>
         <Paper elevation={4}>
           <StepForm />

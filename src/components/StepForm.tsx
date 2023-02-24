@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
-import { Box, Button } from "@mui/material";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import StepContact from "./StepContact";
 import StepReview from "./StepReview";
 import StepConfirm from "./StepConfirm";
+import React from "react";
 
 interface IFormInputs {
   name: string;
@@ -41,8 +42,8 @@ function StepForm() {
 
   const step = [
     <StepContact nextStep={nextStep} />,
-    <StepReview nextStep={nextStep} />,
-    <StepConfirm />,
+    <StepReview nextStep={nextStep} backStep={backStep} />,
+    <StepConfirm backStep={backStep} />,
   ];
 
   const methods = useForm<IFormInputs>({
@@ -57,20 +58,32 @@ function StepForm() {
     });
   };
 
+  const steps = ["Contato", "Avaliação", "Confirmação"];
+
   return (
-    <Box p={2}>
-      <h2>Formulário de contato:</h2>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
-          {currentStep > 0 && (
-            <Button type="button" onClick={() => backStep()}>
-              Previous
-            </Button>
-          )}
-          {step[currentStep]}
-        </form>
-      </FormProvider>
+    <Box padding={2}>
+      <Stepper activeStep={currentStep}>
+        {steps.map((label, index) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: {
+            optional?: React.ReactNode;
+          } = {};
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      <Box marginTop={2}>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
+            {step[currentStep]}
+          </form>
+        </FormProvider>
+      </Box>
     </Box>
   );
 }
+
 export default StepForm;
