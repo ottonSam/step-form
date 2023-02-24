@@ -6,6 +6,7 @@ import * as yup from "yup";
 import StepContact from "./StepContact";
 import StepReview from "./StepReview";
 import StepConfirm from "./StepConfirm";
+import Thanks from "./Thanks";
 import React from "react";
 
 interface IFormInputs {
@@ -29,7 +30,7 @@ function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
   function nextStep() {
-    if (currentStep < step.length - 1) {
+    if (currentStep < step.length) {
       setCurrentStep(currentStep + 1);
     }
   }
@@ -40,10 +41,16 @@ function StepForm() {
     }
   }
 
+  function resetForm() {
+    setCurrentStep(0);
+    methods.reset();
+  }
+
   const step = [
     <StepContact nextStep={nextStep} />,
     <StepReview nextStep={nextStep} backStep={backStep} />,
     <StepConfirm backStep={backStep} />,
+    <Thanks resetForm={resetForm} />,
   ];
 
   const methods = useForm<IFormInputs>({
@@ -52,8 +59,9 @@ function StepForm() {
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     schema.isValid(data).then((e) => {
-      if (currentStep === step.length - 1 && e) {
+      if (currentStep === step.length - 2 && e) {
         alert(JSON.stringify(data));
+        nextStep();
       }
     });
   };
@@ -63,11 +71,9 @@ function StepForm() {
   return (
     <Box padding={2}>
       <Stepper activeStep={currentStep}>
-        {steps.map((label, index) => {
+        {steps.map((label) => {
           const stepProps: { completed?: boolean } = {};
-          const labelProps: {
-            optional?: React.ReactNode;
-          } = {};
+          const labelProps: {} = {};
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
