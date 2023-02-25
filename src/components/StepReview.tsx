@@ -44,11 +44,10 @@ const StepContact = (props: any) => {
       <Controller
         name="review"
         control={control}
-        defaultValue="fantastic"
         render={({ field }) => (
           <FormControl>
             <FormLabel>Avaliação</FormLabel>
-            <RadioGroup row defaultValue="fantastic">
+            <RadioGroup row defaultValue={watch("review") || "fantastic"}>
               <FormControlLabel
                 {...field}
                 value="fantastic"
