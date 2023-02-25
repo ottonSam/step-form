@@ -9,7 +9,7 @@ export default function Thanks(props: any) {
   return (
     <div>
       <h2>Obrigado pela sua avaliação 🚀</h2>
-      <p>Caso queira fazer outra sintase a vontade.</p>
+      <p>Caso queira fazer outra sinta-se a vontade.</p>
       <Box marginTop={2}>
         <Button variant="contained" color="success" onClick={handleReset}>
           Nova avaliação
