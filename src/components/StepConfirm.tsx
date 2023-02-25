@@ -33,6 +33,9 @@ const StepConfirm = (props: any) => {
             {watch("name")}
           </Typography>
           <Typography variant="body1" color="text.secondary">
+            {watch("city")} / {watch("state")}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
             {watch("email")}
           </Typography>
           <Divider />
