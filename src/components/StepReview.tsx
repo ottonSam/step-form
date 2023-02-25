@@ -1,4 +1,15 @@
-import { Button, Stack, TextField, Box } from "@mui/material";
+import {
+  Button,
+  Stack,
+  TextField,
+  Box,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+} from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
@@ -34,19 +45,40 @@ const StepContact = (props: any) => {
       <Controller
         name="review"
         control={control}
-        defaultValue=""
-        render={({ field }) => {
-          return (
-            <TextField
-              {...field}
-              label="Avaliação"
-              variant="outlined"
-              error={!!errors.review}
-              helperText={errors.review?.message?.toString()}
-            />
-          );
-        }}
+        defaultValue="fantastic"
+        render={({ field }) => (
+          <FormControl>
+            <FormLabel>Avaliação</FormLabel>
+            <RadioGroup row defaultValue="fantastic">
+              <FormControlLabel
+                {...field}
+                value="fantastic"
+                control={<Radio />}
+                label="Fantástico"
+              />
+              <FormControlLabel
+                {...field}
+                value="good"
+                control={<Radio />}
+                label="Bom"
+              />
+              <FormControlLabel
+                {...field}
+                value="ok"
+                control={<Radio />}
+                label="Normal"
+              />
+              <FormControlLabel
+                {...field}
+                value="bad"
+                control={<Radio />}
+                label="Ruim"
+              />
+            </RadioGroup>
+          </FormControl>
+        )}
       />
+
       <Controller
         name="comment"
         control={control}
@@ -54,6 +86,8 @@ const StepContact = (props: any) => {
         render={({ field }) => (
           <TextField
             {...field}
+            multiline
+            minRows={4}
             label="Comentário"
             variant="outlined"
             error={!!errors.comment}
