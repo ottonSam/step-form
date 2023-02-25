@@ -3,7 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 const userSchema = yup.object().shape({
-  name: yup.string().min(5).required(),
+  name: yup.string().min(3).required(),
   email: yup.string().email().required(),
 });
 
