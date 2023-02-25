@@ -44,6 +44,7 @@ const StepContact = (props: any) => {
       <Controller
         name="review"
         control={control}
+        defaultValue={watch("review") || "fantastic"}
         render={({ field }) => (
           <FormControl>
             <FormLabel>Avaliação</FormLabel>
