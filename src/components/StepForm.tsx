@@ -17,13 +17,13 @@ interface IFormInputs {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().min(5).required("Name is required"),
+  name: yup.string().min(5).required("O nome é obrigatório."),
   email: yup
     .string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  review: yup.string().required("Review is required"),
-  comment: yup.string().required("Comment is required"),
+    .email("O email informado é invalido.")
+    .required("O email é obrigatório."),
+  review: yup.string().required("A avaliação é obrigatória."),
+  comment: yup.string().required("O comentário é obrigatório."),
 });
 
 function StepForm() {
