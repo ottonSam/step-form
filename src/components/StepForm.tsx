@@ -17,7 +17,10 @@ interface IFormInputs {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().min(5).required("O nome é obrigatório."),
+  name: yup
+    .string()
+    .min(3, "O nome deve ter no mínimo 3 caracteres.")
+    .required("O nome é obrigatório."),
   email: yup
     .string()
     .email("O email informado é invalido.")
