@@ -17,8 +17,13 @@ const StepContact = (props: any) => {
     control,
     watch,
     clearErrors,
+    resetField,
     formState: { errors },
   } = useFormContext();
+
+  const citiesByState: String[] =
+    // @ts-ignore
+    watch("state") in cities ? cities[watch("state")] : [];
 
   const handleNext = async () => {
     const user = {
@@ -85,6 +90,10 @@ const StepContact = (props: any) => {
               <Autocomplete
                 {...field}
                 options={states}
+                value={watch("state") || null}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField
@@ -95,7 +104,10 @@ const StepContact = (props: any) => {
                     helperText={fieldState.error?.message}
                   />
                 )}
-                onChange={(_, data) => field.onChange(data)}
+                onChange={(_, data) => {
+                  field.onChange(data);
+                  resetField("city");
+                }}
               />
             );
           }}
@@ -107,7 +119,12 @@ const StepContact = (props: any) => {
             return (
               <Autocomplete
                 {...field}
-                options={cities[watch("state")]}
+                options={citiesByState}
+                value={watch("city") || null}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
+                disabled={watch("state") ? false : true}
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField
