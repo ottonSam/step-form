@@ -1,10 +1,15 @@
-import { Button, Stack, TextField, Box } from "@mui/material";
+import { Button, Stack, TextField, Box, Autocomplete } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
+
+import states from "../data/States";
+import cities from "../data/Cities";
 
 const userSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   email: yup.string().email().required(),
+  state: yup.string().required(),
+  city: yup.string().required(),
 });
 
 const StepContact = (props: any) => {
@@ -19,6 +24,8 @@ const StepContact = (props: any) => {
     const user = {
       name: watch("name"),
       email: watch("email"),
+      state: watch("state"),
+      city: watch("city"),
     };
 
     await userSchema.isValid(user).then((e) => {
@@ -64,6 +71,59 @@ const StepContact = (props: any) => {
           />
         )}
       />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <Controller
+          name="state"
+          control={control}
+          render={({ field, fieldState }) => {
+            return (
+              <Autocomplete
+                {...field}
+                options={states}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Estado"
+                    variant="outlined"
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
+                onChange={(_, data) => field.onChange(data)}
+              />
+            );
+          }}
+        />
+        <Controller
+          name="city"
+          control={control}
+          render={({ field, fieldState }) => {
+            return (
+              <Autocomplete
+                {...field}
+                options={cities[watch("state")]}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Cidade"
+                    variant="outlined"
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                  />
+                )}
+                onChange={(_, data) => field.onChange(data)}
+              />
+            );
+          }}
+        />
+      </Box>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
           variant="outlined"

@@ -14,6 +14,8 @@ interface IFormInputs {
   email: string;
   review: string;
   comment: string;
+  state: string;
+  city: string;
 }
 
 const schema = yup.object().shape({
@@ -27,6 +29,8 @@ const schema = yup.object().shape({
     .required("O email é obrigatório."),
   review: yup.string().required("A avaliação é obrigatória."),
   comment: yup.string().required("O comentário é obrigatório."),
+  state: yup.string().required("O estado é obrigatório"),
+  city: yup.string().required("A cidade é obrigatória"),
 });
 
 function StepForm() {
