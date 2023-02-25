@@ -15,10 +15,17 @@ const StepConfirm = (props: any) => {
       <p>review: {watch("review")}</p>
       <p>comment: {watch("comment")}</p>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-        <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-          Back
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Voltar
         </Button>
-        <Button type="submit">Confirm</Button>
+        <Button variant="outlined" type="submit">
+          Próximo
+        </Button>
       </Box>
     </Stack>
   );

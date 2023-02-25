@@ -3,11 +3,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 const userSchema = yup.object().shape({
-  name: yup.string().min(5).required("Name is required"),
-  email: yup
-    .string()
-    .email("Invalid email address")
-    .required("Email is required"),
+  name: yup.string().min(5).required(),
+  email: yup.string().email().required(),
 });
 
 const StepContact = (props: any) => {
@@ -69,15 +66,16 @@ const StepContact = (props: any) => {
       />
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
-          color="inherit"
+          variant="outlined"
+          color="secondary"
           disabled={true}
           onClick={handleBack}
           sx={{ mr: 1 }}
         >
-          Back
+          Voltar
         </Button>
-        <Button type="submit" onClick={handleNext}>
-          Next
+        <Button variant="outlined" type="submit" onClick={handleNext}>
+          Próximo
         </Button>
       </Box>
     </Stack>

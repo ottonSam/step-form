@@ -3,8 +3,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 const reviewSchema = yup.object().shape({
-  review: yup.string().required("Review is required"),
-  comment: yup.string().required("Comment is required"),
+  review: yup.string().required(),
+  comment: yup.string().required(),
 });
 
 const StepContact = (props: any) => {
@@ -39,7 +39,7 @@ const StepContact = (props: any) => {
           return (
             <TextField
               {...field}
-              label="Review"
+              label="Avaliação"
               variant="outlined"
               error={!!errors.review}
               helperText={errors.review?.message?.toString()}
@@ -54,7 +54,7 @@ const StepContact = (props: any) => {
         render={({ field }) => (
           <TextField
             {...field}
-            label="Comment"
+            label="Comentário"
             variant="outlined"
             error={!!errors.comment}
             helperText={errors.comment?.message?.toString()}
@@ -62,11 +62,16 @@ const StepContact = (props: any) => {
         )}
       />
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-        <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-          Back
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Voltar
         </Button>
-        <Button type="submit" onClick={handleNext}>
-          Next
+        <Button variant="outlined" type="submit" onClick={handleNext}>
+          Próximo
         </Button>
       </Box>
     </Stack>

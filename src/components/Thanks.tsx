@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 
 export default function Thanks(props: any) {
   const handleReset = () => {
@@ -7,10 +8,13 @@ export default function Thanks(props: any) {
   };
   return (
     <div>
-      <p>Thanks bro</p>
-      <Button variant="contained" color="success" onClick={handleReset}>
-        Reset
-      </Button>
+      <h2>Obrigado pela sua avaliação 🚀</h2>
+      <p>Caso queira fazer outra sintase a vontade.</p>
+      <Box marginTop={2}>
+        <Button variant="contained" color="success" onClick={handleReset}>
+          Nova avaliação
+        </Button>
+      </Box>
     </div>
   );
 }
