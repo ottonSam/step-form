@@ -86,7 +86,10 @@ function StepForm() {
       </Stepper>
       <Box marginTop={2}>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
+          <form
+            autoComplete="off"
+            onSubmit={methods.handleSubmit(formSubmitHandler)}
+          >
             {step[currentStep]}
           </form>
         </FormProvider>
