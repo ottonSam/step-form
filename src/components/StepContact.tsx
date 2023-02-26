@@ -2,7 +2,7 @@ import { Button, Stack, TextField, Box, Autocomplete } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
-import states from "../data/States";
+import DataCities from "../data/DataCities";
 
 const userSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -20,11 +20,11 @@ const StepContact = (props: any) => {
     formState: { errors },
   } = useFormContext();
 
-  const States = states.map((state) => state.state);
+  const states = DataCities.map((state) => state.state);
 
   const citiesByState: String[] =
-    States.indexOf(watch("state")) !== -1
-      ? states[States.indexOf(watch("state"))].cities
+    states.indexOf(watch("state")) !== -1
+      ? DataCities[states.indexOf(watch("state"))].cities
       : [];
 
   const handleNext = async () => {
@@ -91,7 +91,7 @@ const StepContact = (props: any) => {
             return (
               <Autocomplete
                 {...field}
-                options={States}
+                options={states}
                 value={watch("state") || null}
                 isOptionEqualToValue={(option, value) =>
                   option.value === value.value
