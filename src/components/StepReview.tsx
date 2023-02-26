@@ -12,27 +12,49 @@ import {
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
+interface Review {
+  review: string;
+  comment: string;
+}
+
 const reviewSchema = yup.object().shape({
   review: yup.string().required(),
   comment: yup.string().required(),
 });
 
-const StepContact = (props: any) => {
+const validateReview = (review: Review) => {
+  try {
+    reviewSchema.validateSync(review);
+    return {};
+  } catch (e: any) {
+    return e.errors.reduce(
+      (acc: Record<string, string>, errorMessage: string) => {
+        const [fieldName, message] = errorMessage.split(": ");
+        acc[fieldName] = message;
+        return acc;
+      },
+      {}
+    );
+  }
+};
+
+const StepContact = (props: { nextStep: () => void; backStep: () => void }) => {
   const {
     control,
     watch,
     formState: { errors },
   } = useFormContext();
 
-  const handleNext = async () => {
-    const user = {
+  const handleNext = () => {
+    const review: Review = {
       review: watch("review"),
       comment: watch("comment"),
     };
 
-    await reviewSchema.isValid(user).then((e) => {
-      e && props.nextStep();
-    });
+    const errors = validateReview(review);
+    if (Object.keys(errors).length === 0) {
+      props.nextStep();
+    }
   };
 
   const handleBack = () => {
