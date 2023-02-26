@@ -4,6 +4,13 @@ import * as yup from "yup";
 
 import DataCities from "../data/DataCities";
 
+interface User {
+  name: string;
+  email: string;
+  state: string;
+  city: string;
+}
+
 const userSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   email: yup.string().email().required(),
@@ -11,7 +18,23 @@ const userSchema = yup.object().shape({
   city: yup.string().required(),
 });
 
-const StepContact = (props: any) => {
+const validateUser = (user: User) => {
+  try {
+    userSchema.validateSync(user);
+    return {};
+  } catch (e: any) {
+    return e.errors.reduce(
+      (acc: Record<string, string>, errorMessage: string) => {
+        const [fieldName, message] = errorMessage.split(": ");
+        acc[fieldName] = message;
+        return acc;
+      },
+      {}
+    );
+  }
+};
+
+const StepContact = (props: { nextStep: () => void }) => {
   const {
     control,
     watch,
@@ -21,29 +44,25 @@ const StepContact = (props: any) => {
   } = useFormContext();
 
   const states = DataCities.map((state) => state.state);
+  const selectedState = watch("state");
+  const citiesByState = selectedState
+    ? DataCities.find((state) => state.state === selectedState)?.cities || []
+    : [];
 
-  const citiesByState: String[] =
-    states.indexOf(watch("state")) !== -1
-      ? DataCities[states.indexOf(watch("state"))].cities
-      : [];
-
-  const handleNext = async () => {
-    const user = {
+  const handleNext = () => {
+    const user: User = {
       name: watch("name"),
       email: watch("email"),
       state: watch("state"),
       city: watch("city"),
     };
 
-    await userSchema.isValid(user).then((e) => {
-      clearErrors("review");
-      clearErrors("comment");
-      e && props.nextStep();
-    });
-  };
-
-  const handleBack = () => {
-    props.backStep();
+    const errors = validateUser(user);
+    clearErrors("review");
+    clearErrors("comment");
+    if (Object.keys(errors).length === 0) {
+      props.nextStep();
+    }
   };
 
   return (
@@ -126,7 +145,7 @@ const StepContact = (props: any) => {
                 isOptionEqualToValue={(option, value) =>
                   option.value === value.value
                 }
-                disabled={watch("state") ? false : true}
+                disabled={!selectedState}
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField
@@ -148,7 +167,6 @@ const StepContact = (props: any) => {
           variant="outlined"
           color="secondary"
           disabled={true}
-          onClick={handleBack}
           sx={{ mr: 1 }}
         >
           Voltar
