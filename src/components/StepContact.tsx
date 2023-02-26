@@ -3,7 +3,6 @@ import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 import states from "../data/States";
-import cities from "../data/Cities";
 
 const userSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -21,9 +20,12 @@ const StepContact = (props: any) => {
     formState: { errors },
   } = useFormContext();
 
+  const States = states.map((state) => state.state);
+
   const citiesByState: String[] =
-    // @ts-ignore
-    watch("state") in cities ? cities[watch("state")] : [];
+    States.indexOf(watch("state")) !== -1
+      ? states[States.indexOf(watch("state"))].cities
+      : [];
 
   const handleNext = async () => {
     const user = {
@@ -89,7 +91,7 @@ const StepContact = (props: any) => {
             return (
               <Autocomplete
                 {...field}
-                options={states}
+                options={States}
                 value={watch("state") || null}
                 isOptionEqualToValue={(option, value) =>
                   option.value === value.value
