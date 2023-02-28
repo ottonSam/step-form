@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
+import TextFieldComponent from "../utils/TextFieldComponent";
 
 interface Review {
   review: string;
@@ -100,22 +101,8 @@ const StepContact = (props: { nextStep: () => void; backStep: () => void }) => {
         )}
       />
 
-      <Controller
-        name="comment"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            multiline
-            minRows={4}
-            label="Comentário"
-            variant="outlined"
-            error={!!errors.comment}
-            helperText={errors.comment?.message?.toString()}
-          />
-        )}
-      />
+      <TextFieldComponent name="comment" label="Comentário" />
+
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
           variant="outlined"

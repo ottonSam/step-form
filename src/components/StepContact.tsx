@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 import DataCities from "../data/DataCities";
+import TextFieldComponent from "../utils/TextFieldComponent";
 
 interface User {
   name: string;
@@ -35,13 +36,7 @@ const validateUser = (user: User) => {
 };
 
 const StepContact = (props: { nextStep: () => void }) => {
-  const {
-    control,
-    watch,
-    clearErrors,
-    resetField,
-    formState: { errors },
-  } = useFormContext();
+  const { control, watch, clearErrors, resetField } = useFormContext();
 
   const states = DataCities.map((state) => state.state);
   const selectedState = watch("state");
@@ -67,36 +62,8 @@ const StepContact = (props: { nextStep: () => void }) => {
 
   return (
     <Stack spacing={2}>
-      <Controller
-        name="name"
-        control={control}
-        defaultValue=""
-        render={({ field }) => {
-          return (
-            <TextField
-              {...field}
-              label="Nome"
-              variant="outlined"
-              error={!!errors.name}
-              helperText={errors.name?.message?.toString()}
-            />
-          );
-        }}
-      />
-      <Controller
-        name="email"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            variant="outlined"
-            error={!!errors.email}
-            helperText={errors.email?.message?.toString()}
-          />
-        )}
-      />
+      <TextFieldComponent name="name" label="Nome" />
+      <TextFieldComponent name="email" label="Email" />
       <Box
         sx={{
           display: "flex",
