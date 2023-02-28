@@ -1,7 +1,6 @@
 import {
   Button,
   Stack,
-  TextField,
   Box,
   RadioGroup,
   FormControlLabel,
@@ -40,11 +39,7 @@ const validateReview = (review: Review) => {
 };
 
 const StepContact = (props: { nextStep: () => void; backStep: () => void }) => {
-  const {
-    control,
-    watch,
-    formState: { errors },
-  } = useFormContext();
+  const { control, watch } = useFormContext();
 
   const handleNext = () => {
     const review: Review = {
