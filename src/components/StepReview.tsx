@@ -1,16 +1,8 @@
-import {
-  Button,
-  Stack,
-  Box,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormControl,
-  FormLabel,
-} from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
+import { Button, Stack, Box } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 import * as yup from "yup";
 import TextFieldComponent from "../utils/TextFieldComponent";
+import CheckboxComponent from "../utils/CheckboxComponent";
 
 interface Review {
   review: string;
@@ -39,7 +31,7 @@ const validateReview = (review: Review) => {
 };
 
 const StepContact = (props: { nextStep: () => void; backStep: () => void }) => {
-  const { control, watch } = useFormContext();
+  const { watch } = useFormContext();
 
   const handleNext = () => {
     const review: Review = {
@@ -59,42 +51,7 @@ const StepContact = (props: { nextStep: () => void; backStep: () => void }) => {
 
   return (
     <Stack spacing={2}>
-      <Controller
-        name="review"
-        control={control}
-        defaultValue={watch("review") || "fantastic"}
-        render={({ field }) => (
-          <FormControl>
-            <FormLabel>Avaliação</FormLabel>
-            <RadioGroup row value={watch("review") || undefined}>
-              <FormControlLabel
-                {...field}
-                value="fantastic"
-                control={<Radio />}
-                label="Fantástico"
-              />
-              <FormControlLabel
-                {...field}
-                value="good"
-                control={<Radio />}
-                label="Bom"
-              />
-              <FormControlLabel
-                {...field}
-                value="ok"
-                control={<Radio />}
-                label="Normal"
-              />
-              <FormControlLabel
-                {...field}
-                value="bad"
-                control={<Radio />}
-                label="Ruim"
-              />
-            </RadioGroup>
-          </FormControl>
-        )}
-      />
+      <CheckboxComponent />
 
       <TextFieldComponent name="comment" label="Comentário" />
 

@@ -1,8 +1,9 @@
-import { Button, Stack, TextField, Box, Autocomplete } from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
+import { Button, Stack, Box } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 import * as yup from "yup";
 
 import DataCities from "../data/DataCities";
+import AutoCompleteComponent from "../utils/AutoCompleteComponent";
 import TextFieldComponent from "../utils/TextFieldComponent";
 
 interface User {
@@ -36,7 +37,7 @@ const validateUser = (user: User) => {
 };
 
 const StepContact = (props: { nextStep: () => void }) => {
-  const { control, watch, clearErrors, resetField } = useFormContext();
+  const { watch, clearErrors } = useFormContext();
 
   const states = DataCities.map((state) => state.state);
   const selectedState = watch("state");
@@ -70,63 +71,11 @@ const StepContact = (props: { nextStep: () => void }) => {
           flexDirection: "row",
         }}
       >
-        <Controller
-          name="state"
-          control={control}
-          render={({ field, fieldState }) => {
-            return (
-              <Autocomplete
-                {...field}
-                options={states}
-                value={watch("state") || null}
-                isOptionEqualToValue={(option, value) =>
-                  option.value === value.value
-                }
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Estado"
-                    variant="outlined"
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  />
-                )}
-                onChange={(_, data) => {
-                  field.onChange(data);
-                  resetField("city");
-                }}
-              />
-            );
-          }}
-        />
-        <Controller
+        <AutoCompleteComponent name="state" label="Estados" options={states} />
+        <AutoCompleteComponent
           name="city"
-          control={control}
-          render={({ field, fieldState }) => {
-            return (
-              <Autocomplete
-                {...field}
-                options={citiesByState}
-                value={watch("city") || null}
-                isOptionEqualToValue={(option, value) =>
-                  option.value === value.value
-                }
-                disabled={!selectedState}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Cidade"
-                    variant="outlined"
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  />
-                )}
-                onChange={(_, data) => field.onChange(data)}
-              />
-            );
-          }}
+          label="Cidades"
+          options={citiesByState}
         />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
