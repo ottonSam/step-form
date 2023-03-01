@@ -69,9 +69,15 @@ const StepContact = (props: { nextStep: () => void }) => {
         sx={{
           display: "flex",
           flexDirection: "row",
+          gap: 3,
         }}
       >
-        <AutoCompleteComponent name="state" label="Estados" options={states} />
+        <AutoCompleteComponent
+          name="state"
+          label="Estados"
+          options={states}
+          resetName="city"
+        />
         <AutoCompleteComponent
           name="city"
           label="Cidades"

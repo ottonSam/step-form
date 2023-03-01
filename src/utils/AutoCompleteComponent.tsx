@@ -2,6 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 interface IAutoCompleteComponentProps {
+  resetName?: string;
   options: string[];
   name: string;
   label: string;
@@ -11,8 +12,9 @@ const AutoCompleteComponent = ({
   options,
   name,
   label,
+  resetName,
 }: IAutoCompleteComponentProps) => {
-  const { control, watch } = useFormContext();
+  const { control, watch, resetField } = useFormContext();
   return (
     <Controller
       name={name}
@@ -21,6 +23,7 @@ const AutoCompleteComponent = ({
         return (
           <Autocomplete
             {...field}
+            disabled={!options.length}
             options={options}
             value={watch(name) || null}
             isOptionEqualToValue={(option, value) =>
@@ -31,13 +34,14 @@ const AutoCompleteComponent = ({
               <TextField
                 {...params}
                 label={label}
-                variant="outlined"
+                variant="standard"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />
             )}
             onChange={(_, data) => {
               field.onChange(data);
+              resetName && resetField(resetName);
             }}
           />
         );
