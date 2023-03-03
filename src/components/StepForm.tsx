@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
+
 import StepContact from "./StepContact";
 import StepReview from "./StepReview";
 import StepConfirm from "./StepConfirm";
@@ -57,7 +58,7 @@ const StepForm = () => {
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     alert(JSON.stringify(data));
-    // setCurrentStep(currentStep + 1);
+    setCurrentStep(currentStep + 1);
   };
 
   const steps = ["Contato", "Avaliação", "Confirmação"];
