@@ -20,7 +20,6 @@ interface IFormInputs {
 
 const StepForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
-
   const fieldsByStep = [
     ["name", "email", "state", "city"],
     ["review", "comment"],
@@ -30,18 +29,13 @@ const StepForm = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const isValid = fieldsByStep[currentStep].every((field) => {
-    // @ts-ignore
-    return methods.trigger(field);
-  });
-
-  function nextStep() {
-    if (currentStep < step.length - 1) {
+  const nextStep = async () => {
+    if (currentStep < 2) {
+      // @ts-ignore
+      const isValid = await methods.trigger(fieldsByStep[currentStep]);
       isValid && setCurrentStep(currentStep + 1);
-    } else {
-      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   function backStep() {
     if (currentStep > 0) {
@@ -63,7 +57,7 @@ const StepForm = () => {
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     alert(JSON.stringify(data));
-    nextStep();
+    // setCurrentStep(currentStep + 1);
   };
 
   const steps = ["Contato", "Avaliação", "Confirmação"];
@@ -88,7 +82,7 @@ const StepForm = () => {
             onSubmit={methods.handleSubmit(formSubmitHandler)}
           >
             {step[currentStep]}
-            {currentStep < step.length && (
+            {currentStep < step.length - 1 && (
               <MovementButtons
                 nextStep={nextStep}
                 backStep={backStep}
