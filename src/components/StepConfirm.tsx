@@ -1,7 +1,5 @@
 import {
-  Button,
   Card,
-  CardActions,
   Typography,
   CardMedia,
   Divider,
@@ -10,12 +8,8 @@ import {
 } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
-const StepConfirm = (props: any) => {
+const StepConfirm = () => {
   const { watch } = useFormContext();
-
-  const handleBack = () => {
-    props.backStep();
-  };
 
   return (
     <Stack alignItems="center">
@@ -43,19 +37,6 @@ const StepConfirm = (props: any) => {
             {watch("review")}: {watch("comment")}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-          >
-            Voltar
-          </Button>
-          <Button variant="contained" color="success" type="submit">
-            Enviar
-          </Button>
-        </CardActions>
       </Card>
     </Stack>
   );

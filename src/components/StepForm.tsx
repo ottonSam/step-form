@@ -2,42 +2,43 @@ import { useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import StepContact from "./StepContact";
 import StepReview from "./StepReview";
 import StepConfirm from "./StepConfirm";
 import Thanks from "./Thanks";
-import React from "react";
+import validationSchema from "../utils/validationSchema";
+import MovementButtons from "./MovementButtons";
 
 interface IFormInputs {
   name: string;
   email: string;
+  city: string;
+  state: string;
   review: string;
   comment: string;
-  state: string;
-  city: string;
 }
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, "O nome deve ter no mínimo 3 caracteres.")
-    .required("O nome é obrigatório."),
-  email: yup
-    .string()
-    .email("O email informado é invalido.")
-    .required("O email é obrigatório."),
-  review: yup.string().required("A avaliação é obrigatória."),
-  comment: yup.string().required("O comentário é obrigatório."),
-  state: yup.string().required("O estado é obrigatório"),
-  city: yup.string().required("A cidade é obrigatória"),
-});
-
-function StepForm() {
+const StepForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
+  const fieldsByStep = [
+    ["name", "email", "state", "city"],
+    ["review", "comment"],
+  ];
+
+  const methods = useForm<IFormInputs>({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const isValid = fieldsByStep[currentStep].every((field) => {
+    // @ts-ignore
+    return methods.trigger(field);
+  });
+
   function nextStep() {
-    if (currentStep < step.length) {
+    if (currentStep < step.length - 1) {
+      isValid && setCurrentStep(currentStep + 1);
+    } else {
       setCurrentStep(currentStep + 1);
     }
   }
@@ -54,23 +55,15 @@ function StepForm() {
   }
 
   const step = [
-    <StepContact nextStep={nextStep} />,
-    <StepReview nextStep={nextStep} backStep={backStep} />,
-    <StepConfirm backStep={backStep} />,
+    <StepContact />,
+    <StepReview />,
+    <StepConfirm />,
     <Thanks resetForm={resetForm} />,
   ];
 
-  const methods = useForm<IFormInputs>({
-    resolver: yupResolver(schema),
-  });
-
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
-    schema.isValid(data).then((e) => {
-      if (currentStep === step.length - 2 && e) {
-        alert(JSON.stringify(data));
-        nextStep();
-      }
-    });
+    alert(JSON.stringify(data));
+    nextStep();
   };
 
   const steps = ["Contato", "Avaliação", "Confirmação"];
@@ -95,11 +88,18 @@ function StepForm() {
             onSubmit={methods.handleSubmit(formSubmitHandler)}
           >
             {step[currentStep]}
+            {currentStep < step.length && (
+              <MovementButtons
+                nextStep={nextStep}
+                backStep={backStep}
+                currentStep={currentStep}
+              />
+            )}
           </form>
         </FormProvider>
       </Box>
     </Box>
   );
-}
+};
 
 export default StepForm;
