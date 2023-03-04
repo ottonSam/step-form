@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: step-form
+    restart: always
+    ports:
+      - 3001:3000
+    volumes:
+      - .:/usr/app
