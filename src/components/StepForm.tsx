@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
-import {
-  Box,
-  Step,
-  StepLabel,
-  Stepper,
-  styled,
-  StepIconProps,
-} from "@mui/material";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import StepContact from "./StepContact";
@@ -17,7 +10,7 @@ import Thanks from "./Thanks";
 import validationSchema from "../utils/validationSchema";
 import MovementButtons from "./MovementButtons";
 
-import Check from "@mui/icons-material/Check";
+import { StepperIcon } from "./StepperIcon";
 
 interface IFormInputs {
   name: string;
@@ -28,47 +21,11 @@ interface IFormInputs {
   comment: string;
 }
 
-const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
-  ({ theme, ownerState }) => ({
-    color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
-    display: "flex",
-    height: 22,
-    alignItems: "center",
-    ...(ownerState.active && {
-      color: "#784af4",
-    }),
-    "& .QontoStepIcon-completedIcon": {
-      color: "#784af4",
-      zIndex: 1,
-      fontSize: 18,
-    },
-    "& .QontoStepIcon-circle": {
-      width: 8,
-      height: 8,
-      borderRadius: "50%",
-      backgroundColor: "currentColor",
-    },
-  })
-);
-
-function QontoStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props;
-
-  return (
-    <QontoStepIconRoot ownerState={{ active }} className={className}>
-      {completed ? (
-        <Check className="QontoStepIcon-completedIcon" />
-      ) : (
-        <div className="QontoStepIcon-circle" />
-      )}
-    </QontoStepIconRoot>
-  );
-}
-
 const StepForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const fieldsByStep = [
-    ["name", "email"],
+    ["name"],
+    ["email"],
     ["state", "city"],
     ["review", "comment"],
   ];
@@ -78,7 +35,7 @@ const StepForm = () => {
   });
 
   const nextStep = async () => {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       // @ts-ignore
       const isValid = await methods.trigger(fieldsByStep[currentStep]);
       isValid && setCurrentStep(currentStep + 1);
@@ -97,7 +54,8 @@ const StepForm = () => {
   }
 
   const step = [
-    <StepContact currentSubStep={0} />,
+    <StepContact currentSubStep={0} currentSubSubStep={0} />,
+    <StepContact currentSubStep={0} currentSubSubStep={1} />,
     <StepContact currentSubStep={1} />,
     <StepReview />,
     <StepConfirm />,
@@ -115,22 +73,22 @@ const StepForm = () => {
   }
 
   const steps: IStep[] = [
-    { index: 0, label: "Contato" },
-    { index: 2, label: "Avaliação" },
-    { index: 3, label: "Confirmação" },
+    { index: 2, label: "Contato" },
+    { index: 3, label: "Avaliação" },
+    { index: 4, label: "Confirmação" },
   ];
 
   return (
     <Box padding={2}>
       <Stepper activeStep={currentStep}>
         {steps.map(({ index, label }) => {
-          const stepProps: { completed?: boolean; index: number } = {
-            index: index,
+          const stepProps: { completed: boolean } = {
+            completed: index < currentStep,
           };
           const labelProps: {} = {};
           return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps} StepIconComponent={QontoStepIcon}>
+            <Step key={index} {...stepProps}>
+              <StepLabel {...labelProps} StepIconComponent={StepperIcon}>
                 {label}
               </StepLabel>
             </Step>
