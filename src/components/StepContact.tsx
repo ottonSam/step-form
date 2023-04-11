@@ -1,42 +1,33 @@
-import { Stack, Box } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { Stack, Step, StepLabel, Stepper } from "@mui/material";
+import Cities from "./Cities";
+import Contact from "./Contact";
 
-import DataCities from "../data/DataCities";
-import AutoCompleteComponent from "../utils/AutoCompleteComponent";
-import TextFieldComponent from "../utils/TextFieldComponent";
+interface IProps {
+  currentSubStep: number;
+}
 
-const StepContact = () => {
-  const { watch } = useFormContext();
+const StepContact: React.FC<IProps> = ({ currentSubStep }) => {
+  const steps = [
+    [0, "Dados pessoais"],
+    [1, "Endereço"],
+  ];
 
-  const states = DataCities.map((state) => state.state);
-  const selectedState = watch("state");
-  const citiesByState = selectedState
-    ? DataCities.find((state) => state.state === selectedState)?.cities || []
-    : [];
+  const stepsList = [<Contact />, <Cities />];
 
   return (
     <Stack spacing={2}>
-      <TextFieldComponent name="name" label="Nome" />
-      <TextFieldComponent name="email" label="Email" />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 3,
-        }}
-      >
-        <AutoCompleteComponent
-          name="state"
-          label="Estados"
-          options={states}
-          resetName="city"
-        />
-        <AutoCompleteComponent
-          name="city"
-          label="Cidades"
-          options={citiesByState}
-        />
-      </Box>
+      <Stepper activeStep={currentSubStep}>
+        {steps.map(([index, label]) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: {} = {};
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      {stepsList[currentSubStep]}
     </Stack>
   );
 };
