@@ -5,8 +5,9 @@ import CheckboxComponent from "../utils/CheckboxComponent";
 const StepContact = () => {
   return (
     <Stack spacing={2}>
-      <CheckboxComponent />
-
+      <>
+        <CheckboxComponent />
+      </>
       <TextFieldComponent name="comment" label="Comentário" />
     </Stack>
   );

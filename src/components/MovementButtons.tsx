@@ -26,7 +26,7 @@ const MovementButtons = ({
       >
         Voltar
       </Button>
-      {currentStep < 2 ? (
+      {currentStep < 3 ? (
         <Button variant="outlined" type="button" onClick={(e) => handleNext(e)}>
           Próximo
         </Button>
