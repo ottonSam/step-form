@@ -3,12 +3,12 @@ import React from "react";
 
 // import { Container } from './styles';
 
-const SubSubForms: React.FC = () => {
+const Step2: React.FC = () => {
   return (
     <Box>
-      <Typography>SubSubStep1.1</Typography>
+      <Typography>2</Typography>
     </Box>
   );
 };
 
-export default SubSubForms;
+export default Step2;

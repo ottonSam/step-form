@@ -1,8 +1,8 @@
 import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import React, { Fragment, useContext, useState } from "react";
 import MovementButtons from "../MovementButtons";
-import SubForm1 from "./SubForms/SubForm1";
-import SubForm2 from "./SubForms/SubForm2";
+import SubForm1 from "./Steps/Step1";
+import SubForm2 from "./Steps/Step2";
 
 // import { Container } from './styles';
 
