@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import React, { Fragment, useContext, useState } from "react";
 import MovementButtons from "../MovementButtons";
 import SubForm1 from "../SubForms/SubForm1";
@@ -9,12 +9,14 @@ import SubForm2 from "../SubForms/SubForm2";
 const StepForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const StepComponents = [
-    <SubForm1 subStep={0} />,
-    <SubForm1 subStep={1} />,
-    <SubForm1 subStep={2} />,
-    <SubForm2 />,
+  const StepComponents: [number, JSX.Element][] = [
+    [0, <SubForm1 subStep={0} />],
+    [0, <SubForm1 subStep={1} />],
+    [0, <SubForm1 subStep={2} />],
+    [1, <SubForm2 />],
   ];
+
+  const steps = ["primeiro", "segundo"];
 
   const nextStep = () => {
     //Fields Trigger
@@ -27,8 +29,19 @@ const StepForm: React.FC = () => {
 
   return (
     <Fragment>
+      <Box sx={{ width: "100%" }}>
+        <Stepper activeStep={StepComponents[currentStep][0]} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>
+                <Typography sx={{ color: "white" }}>{label}</Typography>
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
       <Typography>Form, current step = {currentStep}</Typography>
-      <Box>{StepComponents[currentStep]}</Box>
+      <Box>{StepComponents[currentStep][1]}</Box>
       <MovementButtons
         prevStep={prevStep}
         nextStep={nextStep}
