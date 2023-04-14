@@ -1,7 +1,13 @@
 import StepForm from "./components/StepForm";
+import GlobalStyle from "./styles/global";
 
 function App() {
-  return <StepForm />;
+  return (
+    <>
+      <GlobalStyle />
+      <StepForm />
+    </>
+  );
 }
 
 export default App;
