@@ -16,7 +16,10 @@ const StepForm: React.FC = () => {
     [1, <SubForm2 />],
   ];
 
-  const steps = ["primeiro", "segundo"];
+  const steps: [number, string][] = [
+    [1, "primeiro"],
+    [2, "segundo"],
+  ];
 
   const nextStep = () => {
     //Fields Trigger
@@ -30,18 +33,29 @@ const StepForm: React.FC = () => {
   return (
     <Fragment>
       <Box sx={{ width: "100%" }}>
-        <Stepper activeStep={StepComponents[currentStep][0]} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>
+        <Stepper alternativeLabel>
+          {steps.map(([index, label]) => (
+            <Step
+              key={index}
+              completed={false}
+              active={StepComponents[currentStep][0] >= index - 1}
+            >
+              <StepLabel icon={index}>
                 <Typography sx={{ color: "white" }}>{label}</Typography>
               </StepLabel>
             </Step>
           ))}
         </Stepper>
       </Box>
-      <Typography>Form, current step = {currentStep}</Typography>
-      <Box>{StepComponents[currentStep][1]}</Box>
+      <Box
+        m={4}
+        p={2}
+        sx={{ display: "flex", justifyContent: "center" }}
+        border={1}
+        borderRadius={1}
+      >
+        {StepComponents[currentStep][1]}
+      </Box>
       <MovementButtons
         prevStep={prevStep}
         nextStep={nextStep}
